@@ -5,16 +5,25 @@ import Web3Modal from "web3modal";
 import './App.css';
 import IpfsFileUpload from './components/IpfsFileUpload';
 import { abi, CONTRACT_ADDRESS } from './constants';
+import { ipfsContext } from './context/IpfsUploadContext';
 import { providerSignerContext } from './context/ProviderOrSignerContext';
 function App() {
   const [loading, setLoading] = useState(false)
   //if u need provider or signer
   //signer = getProviderOrSigner(true)
   //provider = getProviderOrSigner()
+  //u can also import this mehtods any where in the component as done here
 const { walletConnected, web3ModalRef, connectWallet, getProviderOrSigner} = useContext(providerSignerContext)
+
+//to get the file url import the contest and destructure in any component u are creating
+const {fileUrl, fileName, fileType } = useContext(ipfsContext)
+
 
 ///sample code of how to use it
 const testing = async () => {
+  //
+  
+  
   try{
       const signer = await getProviderOrSigner(true)
       const testingContract = new Contract(

@@ -6,9 +6,7 @@ export const providerSignerContext = createContext()
 export default function ProviderOrSignerContext(props) {
   // walletConnected keep track of whether the user's wallet is connected or not
   const [walletConnected, setWalletConnected] = useState(false);
-  // loading is set to true when we are waiting for a transaction to get mined
-  const [loading, setLoading] = useState(false);
- // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
+  // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
   const web3ModalRef = useRef();
 
   //to get signer or provider
@@ -51,7 +49,7 @@ export default function ProviderOrSignerContext(props) {
 
      
     return (
-        <providerSignerContext.Provider value={{web3ModalRef, walletConnected, connectWallet, getProviderOrSigner, loading, setLoading}}>
+        <providerSignerContext.Provider value={{web3ModalRef, walletConnected, connectWallet, getProviderOrSigner}}>
             {props.children}
         </providerSignerContext.Provider>
     )
