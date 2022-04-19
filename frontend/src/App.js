@@ -1,24 +1,21 @@
-import { useEthersContext } from "eth-hooks/context";
+
 import { useContext, useState } from "react";
 
 import "./App.css";
+import Navbar from "./components/Navbar";
 import { providerSignerContext } from "./context/ProviderOrSignerContext";
 function App() {
   const [loading, setLoading] = useState(false)
   const {
-    walletConnected,
-    connectWallet,
-    address,
     getProviderContractOrSignerContract,
   } = useContext(providerSignerContext);
-  const ethersContext = useEthersContext();
+  
 
   ///sample code of how to use it
   const testing = async () => {
     //
 
     try {
-      console.log(ethersContext)
       const providerContract = await getProviderContractOrSignerContract();
       
       setLoading(true)
@@ -38,8 +35,9 @@ function App() {
       console.log(signerContract)
       setLoading(true)
       const tx = await  signerContract.grantRole("USER", "0xf4030DdD79fc7Fd49b25C976C5021D07568B4F91");
-      // tx.wait() is only used for signer  
+      
       setLoading(false)
+      // listing for event 
       signerContract.on("GrantRole", (role, addr) => {
         console.log(role, addr)
       })
@@ -70,13 +68,14 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={connectWallet}>
-        {walletConnected ? "Connected" : "Connect Wallet"}
-      </button>
+      <Navbar />
+      
       <button onClick={testing}>Check role</button>
       <button onClick={grantRole}>Grant role</button>
       <button onClick={revokeRole}>Revoke role</button>
       {loading && <p>loading...</p>}
+
+      
     </div>
   );
 }

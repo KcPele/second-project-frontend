@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-//form eth-hooks
-import { EthersAppContext } from 'eth-hooks/context';
+
 import reportWebVitals from './reportWebVitals';
 import ProviderOrSignerContext from './context/ProviderOrSignerContext';
 
@@ -11,14 +10,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
    
-  <EthersAppContext>
+
     <ProviderOrSignerContext>
   
     <App />
  
     </ProviderOrSignerContext>
-    </EthersAppContext>
-
+   
   </React.StrictMode>
 );
 

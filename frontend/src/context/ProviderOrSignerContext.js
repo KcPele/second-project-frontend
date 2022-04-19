@@ -3,6 +3,7 @@ import { providers, Contract } from "ethers";
 import Web3Modal from "web3modal";
 import {abi, CONTRACT_ADDRESS} from "../constants/index"
 
+
 export const providerSignerContext = createContext()
 export default function ProviderOrSignerContext(props) {
   // walletConnected keep track of whether the user's wallet is connected or not
