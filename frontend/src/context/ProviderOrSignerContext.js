@@ -17,8 +17,10 @@ export default function ProviderOrSignerContext(props) {
     // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
-    console.log("privider", await web3Provider.listAccounts())
+    const addr = await web3Provider.listAccounts()
+    setAddress(addr[0])
     const web3ProviderContract = new Contract(CONTRACT_ADDRESS, abi, web3Provider)
+
     // If user is not connected to the Rinkeby network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 4) {
@@ -29,7 +31,7 @@ export default function ProviderOrSignerContext(props) {
     if (needSigner) {
       const signer = web3Provider.getSigner();
       const signerContract = new Contract(CONTRACT_ADDRESS, abi, signer)
-      setAddress(await signer.getAddress())
+     
       // return signer;
       return signerContract
     }

@@ -1,37 +1,70 @@
-import { useContext } from "react";
+import { useEthersContext } from "eth-hooks/context";
+import { useContext, useState } from "react";
 
 import "./App.css";
 import { providerSignerContext } from "./context/ProviderOrSignerContext";
 function App() {
+  const [loading, setLoading] = useState(false)
   const {
     walletConnected,
     connectWallet,
     address,
     getProviderContractOrSignerContract,
   } = useContext(providerSignerContext);
+  const ethersContext = useEthersContext();
 
   ///sample code of how to use it
   const testing = async () => {
     //
 
     try {
-      const signerContract = await getProviderContractOrSignerContract(true);
-      console.log(signerContract)
-      console.log(address)
-      //     const testingContract = new Contract(
-      //         CONTRACT_ADDRESS,
-      //         abi,
-      //         signer
-      //     )
-      //     console.log(testingContract)
-      // const tx = await testingContract.setAccessUser()
-      // setLoading(true);
-      // // wait for the transaction to get mined
-      // tx.wait()
-      // setLoading(false)
-      // console.log(tx)
+      console.log(ethersContext)
+      const providerContract = await getProviderContractOrSignerContract();
+      
+      setLoading(true)
+      const tx = await  providerContract.roles("USER", "0xf4030DdD79fc7Fd49b25C976C5021D07568B4F91");
+      // tx.wait() is only used for signer  
+      setLoading(false)
+      console.log(tx)
     } catch (err) {
       console.error(err);
+      setLoading(false)
+    }
+  };
+
+  const grantRole = async () => {
+    try {
+      const signerContract = await getProviderContractOrSignerContract(true);
+      console.log(signerContract)
+      setLoading(true)
+      const tx = await  signerContract.grantRole("USER", "0xf4030DdD79fc7Fd49b25C976C5021D07568B4F91");
+      // tx.wait() is only used for signer  
+      setLoading(false)
+      signerContract.on("GrantRole", (role, addr) => {
+        console.log(role, addr)
+      })
+      console.log(tx)
+    } catch (err) {
+      console.error(err);
+      setLoading(false)
+    }
+  };
+
+  const revokeRole = async () => {
+    try {
+      const signerContract = await getProviderContractOrSignerContract(true);
+     
+      setLoading(true)
+      const tx = await  signerContract.revokeRole("USER", "0xf4030DdD79fc7Fd49b25C976C5021D07568B4F91");
+      // tx.wait() is only used for signer  
+      setLoading(false)
+      signerContract.on("GrantRole", (role, addr) => {
+        console.log(role, addr)
+      })
+      console.log(tx)
+    } catch (err) {
+      console.error(err);
+      setLoading(false)
     }
   };
 
@@ -40,7 +73,10 @@ function App() {
       <button onClick={connectWallet}>
         {walletConnected ? "Connected" : "Connect Wallet"}
       </button>
-      <button onClick={testing}>Testing</button>
+      <button onClick={testing}>Check role</button>
+      <button onClick={grantRole}>Grant role</button>
+      <button onClick={revokeRole}>Revoke role</button>
+      {loading && <p>loading...</p>}
     </div>
   );
 }
