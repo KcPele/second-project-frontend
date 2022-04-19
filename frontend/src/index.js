@@ -3,16 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import IpfsUploadContext from './context/IpfsUploadContext';
 import ProviderOrSignerContext from './context/ProviderOrSignerContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ProviderOrSignerContext>
-    <IpfsUploadContext>
+  
     <App />
-    </IpfsUploadContext>
+ 
     </ProviderOrSignerContext>
   </React.StrictMode>
 );
